@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
       redirect_to question_path(@question), success: '質問を更新しました'
     else
       flash.now[:danger] = '失敗しました'
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
