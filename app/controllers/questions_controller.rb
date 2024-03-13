@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.all
+    @q = Question.ransack(params[:q])
+    @questions = @q.result(distinct: true)
   end
 
   def show
@@ -16,7 +17,7 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to question_path(@question), success: '質問を作成しました'
     else
-      flash.now[:danger] = '失敗しました'
+      flash.now[:danger] = 'タイトルあるいは質問内容を書いてください'
       render :new, status: :unprocessable_entity #status: :unprocessable_entityこれがないとRails7ではバリデーション失敗時のエラーメッセージが表示されない
     end
   end
